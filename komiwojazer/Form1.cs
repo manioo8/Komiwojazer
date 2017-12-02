@@ -15,11 +15,11 @@ namespace komiwojazer
 {
     public partial class Form1 : Form
     {
-        List<Point> points = new List<Point>();
+        List<Point> points = new List<Point>();//lista punktów, każdy reprezentuje pozycję x i y miasta
         List<double> lengths = new List<double>();
         Step step = new Step();
         NonRepeatVector citiesManager = new NonRepeatVector();
-        List<List<Point>> population;
+        List<List<Point>> population;//populacja, w kolumnach są kolejne miasta, w wierszach kolejne sposoby ich przejscia
         int numOfPopulation = 5;
 
         public Form1()
