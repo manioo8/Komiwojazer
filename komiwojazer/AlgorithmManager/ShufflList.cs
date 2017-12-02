@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
-
+//tworzenie losowej listy z poczatkowej listy miast
 namespace komiwojazer.AlgorithmManager
 {
     static class ShufflList
