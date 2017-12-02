@@ -16,11 +16,10 @@ namespace komiwojazer
     public partial class Form1 : Form
     {
         List<Point> points = new List<Point>();
-        List<double> lengths = new List<double>();
         Step step = new Step();
         NonRepeatVector citiesManager = new NonRepeatVector();
         List<List<Point>> population;
-        int numOfPopulation = 5;
+        int numOfPopulation = 20;
 
         public Form1()
         {
@@ -62,17 +61,15 @@ namespace komiwojazer
         private void button2_Click(object sender, EventArgs e)
         {
             points.Add(points[0]);
-            listBox1.Items.Add("City (" + points[points.Count - 1].x.ToString() + "; " + points[points.Count - 1].y.ToString() + ")");
+            //listBox1.Items.Add("City (" + points[points.Count - 1].x.ToString() + "; " + points[points.Count - 1].y.ToString() + ")");
             for (int i = 0; i < points.Count - 1; ++i)
             {
-                lengths.Add(step.GetLength(points[i], points[i + 1]));
-                listBox2.Items.Add(lengths[i].ToString());
                 chart1.Series["test1"].Points.AddXY
                                 (points[i].x, points[i].y);
                 chart1.Series["test2"].Points.AddXY
                                 (points[i].x, points[i].y);
             }
-
+            
             chart1.Series["test1"].ChartType =
                                 SeriesChartType.FastLine;
             chart1.Series["test1"].Color = Color.Blue;
@@ -80,7 +77,7 @@ namespace komiwojazer
             chart1.Series["test2"].ChartType =
                                 SeriesChartType.FastPoint;
             chart1.Series["test2"].Color = Color.Red;
-
+            points.RemoveAt(points.Count-1);
 
         }
 
@@ -109,9 +106,11 @@ namespace komiwojazer
             listBox1.Items.Clear();
             population = citiesManager.GetUniqueList(numOfPopulation, points);
 
-            for (int i = 0; i <= numOfPopulation; ++i)
+            for (int i = 0; i <= numOfPopulation; ++i)//per ilosc populacji
             {
-                for (int j = 0; j <= population[i].Count - 1; ++j)
+                chart1.Series["test1"].Points.Clear();
+                chart1.Series["test2"].Points.Clear();
+                for (int j = 0; j <= population[i].Count - 1; ++j)//za kazde miasto
                 {
                     listBox1.Items.Add("City (" + population[i][j].x.ToString() + "; " + population[i][j].y.ToString() + ")");
                     chart1.Series["test1"].Points.AddXY
@@ -119,8 +118,20 @@ namespace komiwojazer
                     chart1.Series["test2"].Points.AddXY
                                     (population[i][j].x, population[i][j].y);
                 }
+
             }
 
+            for(int i = 0; i <= numOfPopulation; ++i)
+            {
+                double totalDist = 0;
+                for (int j = 0; j < population[i].Count - 1; ++j)
+                {
+                    totalDist += step.GetLength(population[i][j], population[i][j + 1]);
+                }
+                totalDist += step.GetLength(population[i][population[i].Count-1], population[i][0]);       
+                listBox2.Items.Add(totalDist.ToString()+' '+i);
+            }
+            
 
 
         }

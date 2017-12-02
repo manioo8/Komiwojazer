@@ -12,10 +12,11 @@ namespace komiwojazer.AlgorithmManager
 
         public List<List<Point>> GetUniqueList(int _number, List<Point> _cities)
         {
+            List<Point> test = _cities;
             for (int i = 0; i <= _number; ++i)
             {
-                _cities.Shuffle();
-                population.Add(_cities);
+                test.Shuffle();
+                population.Add(test);
             }
             return population;
         }
