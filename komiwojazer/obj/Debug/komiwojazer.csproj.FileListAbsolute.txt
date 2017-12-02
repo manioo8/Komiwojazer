@@ -1,0 +1,10 @@
+D:\projekty\MultiThreading\Komiwojazer\komiwojazer\komiwojazer\bin\Debug\komiwojazer.exe.config
+D:\projekty\MultiThreading\Komiwojazer\komiwojazer\komiwojazer\bin\Debug\komiwojazer.exe
+D:\projekty\MultiThreading\Komiwojazer\komiwojazer\komiwojazer\bin\Debug\komiwojazer.pdb
+D:\projekty\MultiThreading\Komiwojazer\komiwojazer\komiwojazer\obj\Debug\komiwojazer.csprojResolveAssemblyReference.cache
+D:\projekty\MultiThreading\Komiwojazer\komiwojazer\komiwojazer\obj\Debug\komiwojazer.Form1.resources
+D:\projekty\MultiThreading\Komiwojazer\komiwojazer\komiwojazer\obj\Debug\komiwojazer.Properties.Resources.resources
+D:\projekty\MultiThreading\Komiwojazer\komiwojazer\komiwojazer\obj\Debug\komiwojazer.csproj.GenerateResource.Cache
+D:\projekty\MultiThreading\Komiwojazer\komiwojazer\komiwojazer\obj\Debug\komiwojazer.csproj.CoreCompileInputs.cache
+D:\projekty\MultiThreading\Komiwojazer\komiwojazer\komiwojazer\obj\Debug\komiwojazer.exe
+D:\projekty\MultiThreading\Komiwojazer\komiwojazer\komiwojazer\obj\Debug\komiwojazer.pdb
