@@ -36,7 +36,9 @@ namespace komiwojazer
         {
             double x = Convert.ToDouble(textBox1.Text);
             double y = Convert.ToDouble(textBox2.Text);
-
+            textBox1.Text = String.Empty;
+            textBox2.Text = String.Empty;
+            this.ActiveControl = textBox1;
             points.Add(new Point(x, y));
             listBox1.Items.Add("City (" + x.ToString() + "; " + y.ToString() + ")");
 
