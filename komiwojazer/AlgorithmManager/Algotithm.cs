@@ -1,8 +1,8 @@
 ﻿using System;
-
+//wyliczanie i przechowywanie odleglosci miedzy miastami
 namespace komiwojazer
 {
-    class Algotithm
+    class Algorithm
     {
         static void ManageTSP(string[] args)
         {
