@@ -18,7 +18,9 @@ namespace komiwojazer
         List<Point> points = new List<Point>();
         List<double> lengths = new List<double>();
         Step step = new Step();
-
+        NonRepeatVector citiesManager = new NonRepeatVector();
+        List<List<Point>> population;
+        int numOfPopulation = 5;
 
         public Form1()
         {
@@ -35,7 +37,7 @@ namespace komiwojazer
             double x = Convert.ToDouble(textBox1.Text);
             double y = Convert.ToDouble(textBox2.Text);
 
-            points.Add(new Point(x,y));
+            points.Add(new Point(x, y));
             listBox1.Items.Add("City (" + x.ToString() + "; " + y.ToString() + ")");
 
         }
@@ -59,7 +61,7 @@ namespace komiwojazer
         {
             points.Add(points[0]);
             listBox1.Items.Add("City (" + points[points.Count - 1].x.ToString() + "; " + points[points.Count - 1].y.ToString() + ")");
-            for (int i = 0; i < points.Count-1; ++i)
+            for (int i = 0; i < points.Count - 1; ++i)
             {
                 lengths.Add(step.GetLength(points[i], points[i + 1]));
                 listBox2.Items.Add(lengths[i].ToString());
@@ -68,7 +70,7 @@ namespace komiwojazer
                 chart1.Series["test2"].Points.AddXY
                                 (points[i].x, points[i].y);
             }
-           
+
             chart1.Series["test1"].ChartType =
                                 SeriesChartType.FastLine;
             chart1.Series["test1"].Color = Color.Blue;
@@ -89,7 +91,7 @@ namespace komiwojazer
                 chart1.Series["test1"].Points.RemoveAt(points.Count - 1);
                 chart1.Series["test2"].Points.RemoveAt(points.Count - 1);
             }
-            
+
         }
 
         private void chart1_Click(object sender, EventArgs e)
@@ -103,18 +105,21 @@ namespace komiwojazer
             chart1.Series["test2"].Points.Clear();
 
             listBox1.Items.Clear();
-            points.Shuffle();
-            for (int i = 0; i <= points.Count - 1; ++i)
+            population = citiesManager.GetUniqueList(numOfPopulation, points);
+
+            for (int i = 0; i <= numOfPopulation; ++i)
             {
-                listBox1.Items.Add("City (" + points[i].x.ToString() + "; " + points[i].y.ToString() + ")");
-                chart1.Series["test1"].Points.AddXY
-                (points[i].x, points[i].y);
-                chart1.Series["test2"].Points.AddXY
-                                (points[i].x, points[i].y);
+                for (int j = 0; j <= population[i].Count - 1; ++j)
+                {
+                    listBox1.Items.Add("City (" + population[i][j].x.ToString() + "; " + population[i][j].y.ToString() + ")");
+                    chart1.Series["test1"].Points.AddXY
+                    (population[i][j].x, population[i][j].y);
+                    chart1.Series["test2"].Points.AddXY
+                                    (population[i][j].x, population[i][j].y);
+                }
             }
 
         }
-
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
 

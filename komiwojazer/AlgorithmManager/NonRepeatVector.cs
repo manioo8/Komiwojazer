@@ -6,21 +6,16 @@ using System.Threading.Tasks;
 
 namespace komiwojazer.AlgorithmManager
 {
-    class NonRepeatVector
+    public class NonRepeatVector
     {
-        List<int> population = new List<int>();
-        int number;
+        List<List<Point>> population = new List<List<Point>>();
 
-        public NonRepeatVector(int _number)
+        public List<List<Point>> GetUniqueList(int _number, List<Point> _cities)
         {
-            number = _number;
-        }
-
-        public List<int> GetUniqueList()
-        {
-            for(int i = 0; i<=number; ++i)
+            for (int i = 0; i <= _number; ++i)
             {
-
+                _cities.Shuffle();
+                population.Add(_cities);
             }
             return population;
         }
