@@ -97,6 +97,27 @@ namespace komiwojazer
 
         }
 
-        private void button4_Click(object sender, EventArgs e) => points.Shuffle();
+        private void button4_Click(object sender, EventArgs e)
+        {
+            chart1.Series["test1"].Points.Clear();
+            chart1.Series["test2"].Points.Clear();
+
+            listBox1.Items.Clear();
+            points.Shuffle();
+            for (int i = 0; i <= points.Count - 1; ++i)
+            {
+                listBox1.Items.Add("City (" + points[i].x.ToString() + "; " + points[i].y.ToString() + ")");
+                chart1.Series["test1"].Points.AddXY
+                (points[i].x, points[i].y);
+                chart1.Series["test2"].Points.AddXY
+                                (points[i].x, points[i].y);
+            }
+
+        }
+
+        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+
+        }
     }
 }
