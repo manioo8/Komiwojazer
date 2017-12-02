@@ -1,4 +1,5 @@
 # Komiwojazer
 Im krocej tym lepiej
 
-test edycji branchow
+dobry tutorial do githuba
+https://guides.github.com/activities/hello-world/
