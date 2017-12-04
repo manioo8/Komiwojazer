@@ -83,7 +83,7 @@ namespace komiwojazer
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (points.Count >= 2)
+            if (points.Count >= 1)
             {
                 points.RemoveAt(points.Count - 1);
                 listBox1.Items.RemoveAt(listBox1.Items.Count - 1);
