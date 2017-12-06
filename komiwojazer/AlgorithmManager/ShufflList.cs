@@ -9,9 +9,10 @@ namespace komiwojazer.AlgorithmManager
 {
     static class ShufflList
     {
-        public static void Shuffle<T>(this IList<T> list)
+        public static RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
+        public static List<Point> Shuffle(List<Point> list)
         {
-            RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
+            //RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
             int n = list.Count;
             while (n > 1)
             {
@@ -23,10 +24,12 @@ namespace komiwojazer.AlgorithmManager
 
                 int k = (box[0] % n);
                 n--;
-                T value = list[k];
+                Point value = list[k];
                 list[k] = list[n];
                 list[n] = value;
+
             }
+            return list;
         }
     }
 }
