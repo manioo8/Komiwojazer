@@ -19,7 +19,7 @@ namespace komiwojazer
         Step step = new Step();
         NonRepeatVector citiesManager = new NonRepeatVector();
         List<List<Point>> population;
-        int numOfPopulation = 20;
+        int numOfPopulation = 4;
 
         public Form1()
         {
@@ -98,25 +98,26 @@ namespace komiwojazer
 
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void button4_Click(object sender, EventArgs e)//Mieszaj
         {
             chart1.Series["test1"].Points.Clear();
             chart1.Series["test2"].Points.Clear();
 
             listBox1.Items.Clear();
-            population = citiesManager.GetUniqueList(numOfPopulation, points);
+            
 
             for (int i = 0; i <= numOfPopulation; ++i)//per ilosc populacji
             {
                 chart1.Series["test1"].Points.Clear();
                 chart1.Series["test2"].Points.Clear();
+                population = citiesManager.GetUniqueList(points);
                 for (int j = 0; j <= population[i].Count - 1; ++j)//za kazde miasto
                 {
                     listBox1.Items.Add("City (" + population[i][j].x.ToString() + "; " + population[i][j].y.ToString() + ")");
                     chart1.Series["test1"].Points.AddXY
                     (population[i][j].x, population[i][j].y);
                     chart1.Series["test2"].Points.AddXY
-                                    (population[i][j].x, population[i][j].y);
+                    (population[i][j].x, population[i][j].y);
                 }
 
             }

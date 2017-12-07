@@ -9,6 +9,7 @@ namespace komiwojazer.AlgorithmManager
 {
     static class ShufflList
     {
+
         public static void Shuffle<T>(this IList<T> list)
         {
             RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
