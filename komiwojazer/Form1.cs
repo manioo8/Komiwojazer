@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-
+using komiwojazer.GUITHelper;
 
 namespace komiwojazer
 {
@@ -21,6 +21,7 @@ namespace komiwojazer
         NonRepeatVector citiesManager = new NonRepeatVector();
         List<List<Point>> population;
         int numOfPopulation = 5;
+        
 
         public Form1()
         {
@@ -59,7 +60,7 @@ namespace komiwojazer
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)//Licz odległość
         {
             points.Add(points[0]);
             listBox1.Items.Add("City (" + points[points.Count - 1].x.ToString() + "; " + points[points.Count - 1].y.ToString() + ")");
@@ -73,27 +74,13 @@ namespace komiwojazer
                                 (points[i].x, points[i].y);
             }
 
-            chart1.Series["test1"].ChartType =
-                                SeriesChartType.FastLine;
-            chart1.Series["test1"].Color = Color.Blue;
-
-            chart1.Series["test2"].ChartType =
-                                SeriesChartType.FastPoint;
-            chart1.Series["test2"].Color = Color.Red;
-
-
+            ChartHelper.InitChart(chart1);
+ 
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (points.Count >= 2)
-            {
-                points.RemoveAt(points.Count - 1);
-                listBox1.Items.RemoveAt(listBox1.Items.Count - 1);
-                chart1.Series["test1"].Points.RemoveAt(points.Count - 1);
-                chart1.Series["test2"].Points.RemoveAt(points.Count - 1);
-            }
-
+            DisplayManager.DeleteLastPoint(chart1, listBox1, points);
         }
 
         private void chart1_Click(object sender, EventArgs e)
@@ -101,7 +88,7 @@ namespace komiwojazer
 
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void button4_Click(object sender, EventArgs e)//Mieszaj
         {
             chart1.Series["test1"].Points.Clear();
             chart1.Series["test2"].Points.Clear();
@@ -109,18 +96,7 @@ namespace komiwojazer
             listBox1.Items.Clear();
             population = citiesManager.GetUniqueList(numOfPopulation, points);
 
-            for (int i = 0; i <= numOfPopulation; ++i)
-            {
-                for (int j = 0; j <= population[i].Count - 1; ++j)
-                {
-                    listBox1.Items.Add("City (" + population[i][j].x.ToString() + "; " + population[i][j].y.ToString() + ")");
-                    chart1.Series["test1"].Points.AddXY
-                    (population[i][j].x, population[i][j].y);
-                    chart1.Series["test2"].Points.AddXY
-                                    (population[i][j].x, population[i][j].y);
-                }
-            }
-
+            DisplayManager.AddPointsToChart(chart1, listBox1, population, numOfPopulation);
         }
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {

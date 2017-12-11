@@ -15,7 +15,7 @@ namespace komiwojazer.AlgorithmManager
             for (int i = 0; i <= _number; ++i)
             {
                 _cities.Shuffle();
-                population.Add(_cities);
+                population.Add(new List<Point>(_cities));
             }
             return population;
         }
