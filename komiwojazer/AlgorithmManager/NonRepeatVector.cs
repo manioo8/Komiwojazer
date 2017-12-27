@@ -10,10 +10,13 @@ namespace komiwojazer.AlgorithmManager
     {
         List<List<Point>> population = new List<List<Point>>();
 
-        public List<List<Point>> GetUniqueList(List<Point> _cities)//number to ilosc wierszy w populacji
+        public List<List<Point>> GetUniqueList(int _number, List<Point> _cities)
         {
-            _cities.Shuffle();
-            population.Add(_cities);
+            for (int i = 0; i <= _number; ++i)
+            {
+                _cities.Shuffle();
+                population.Add(new List<Point>(_cities));
+            }
             return population;
         }
     }
