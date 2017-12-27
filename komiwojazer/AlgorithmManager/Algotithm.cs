@@ -1,15 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 //wyliczanie i przechowywanie odleglosci miedzy miastami
 namespace komiwojazer
 {
     class Algorithm
     {
-        static void ManageTSP(string[] args)
+        List<Point> oneRoad;
+        public Algorithm(List<Point> _oneRoad)
         {
-            Random random = new Random();//do generacji randomowych koordów miast
-            int numOfCities = 10;//liczba miast
+            oneRoad = _oneRoad;
+        }
+        void ManageTSP(string[] args)
+        {
 
-            int[,] koordynaty = new int[numOfCities, 2];//inicjalizacja tablicy z pozycjami x i y miast
+            double[,] koordynaty = new double[oneRoad.Count, 2];//inicjalizacja tablicy z pozycjami x i y miast
             //x1 y1
             //x2 y2
             //x3 y3
@@ -17,19 +21,19 @@ namespace komiwojazer
 
 
             //zapełnianie tablicy koordów miast
-            for (int i = 0; i < numOfCities; i++)
+            for (int i = 0; i < oneRoad.Count; i++)
             {
-                koordynaty[i, 0] = random.Next(0, 100);//Convert.ToInt32(Console.ReadLine());
-                koordynaty[i, 1] = random.Next(0, 100);//Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("miasto {0} - {1} {2}", i + 1, koordynaty[i, 0], koordynaty[i, 1]);
+                koordynaty[i, 0] = oneRoad[i].x;//Convert.ToInt32(Console.ReadLine());
+                koordynaty[i, 1] = oneRoad[i].y;//Convert.ToInt32(Console.ReadLine());
+                
             }
 
             //po to żeby ładnie się formatowało
             Console.WriteLine(" ");
 
             //inicjalizacja trójkątnej tablicy odległości miast od siebie
-            double[][] citiesDistance = new double[numOfCities - 1][];//robienie kolumn
-            for (int i = 0; i < numOfCities - 1; i++)//robienie zmiennej liczby wierszy
+            double[][] citiesDistance = new double[oneRoad.Count - 1][];//robienie kolumn
+            for (int i = 0; i < oneRoad.Count - 1; i++)//robienie zmiennej liczby wierszy
             {
                 citiesDistance[i] = new double[i + 1];
             }
@@ -45,7 +49,7 @@ namespace komiwojazer
             Console.ReadKey();
         }
 
-        public static double[][] WyliczTabeleOdleglosci(int[,] koordynaty, ref double[][] odleglosciMiast)
+        public double[][] WyliczTabeleOdleglosci(double[,] koordynaty, ref double[][] odleglosciMiast)
         {
             for (int j = 0; j < odleglosciMiast.Length; j++)
             {
