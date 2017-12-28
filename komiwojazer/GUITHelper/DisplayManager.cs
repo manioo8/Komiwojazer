@@ -19,9 +19,9 @@ namespace komiwojazer.GUITHelper
                 for (int j = 0; j <= _population[i].Count - 1; ++j)
                 {
                     _listBox.Items.Add("City (" + _population[i][j].x.ToString() + "; " + _population[i][j].y.ToString() + ")");
-                    _form.Series["test1"].Points.AddXY
+                    _form.Series["Drogi"].Points.AddXY
                     (_population[i][j].x, _population[i][j].y);
-                    _form.Series["test2"].Points.AddXY
+                    _form.Series["Miasta"].Points.AddXY
                                     (_population[i][j].x, _population[i][j].y);
                 }
 
@@ -33,8 +33,8 @@ namespace komiwojazer.GUITHelper
             {
                 _points.RemoveAt(_points.Count - 1);
                 _listBox.Items.RemoveAt(_listBox.Items.Count - 1);
-                _form.Series["test1"].Points.RemoveAt(_points.Count - 1);
-                _form.Series["test2"].Points.RemoveAt(_points.Count - 1);
+                _form.Series["Drogi"].Points.RemoveAt(_points.Count - 1);
+                _form.Series["Miasta"].Points.RemoveAt(_points.Count - 1);
             }
         }
 

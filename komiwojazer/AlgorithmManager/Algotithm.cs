@@ -73,7 +73,7 @@ namespace komiwojazer
             }
             else
             {
-                return citiesDistances[city_2][city_1 + 1];
+                return citiesDistances[city_2-1][city_1];
             }
         }
     }

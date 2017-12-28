@@ -69,17 +69,19 @@ namespace komiwojazer
             algorithm.WyliczTabeleOdleglosci();
 
             listBox1.Items.Add("City (" + points[points.Count - 1].x.ToString() + "; " + points[points.Count - 1].y.ToString() + ")");
-            for (int i = 0; i < points.Count - 2; ++i)
+            for (int i = 0; i < points.Count - 1; ++i)
             {
                 lengths.Add(algorithm.DistanceBetweenCities(i, i + 1));
                 listBox2.Items.Add(lengths[i].ToString());
-                chart1.Series["test1"].Points.AddXY
+                chart1.Series["Drogi"].Points.AddXY
                                 (points[i].x, points[i].y);
-                chart1.Series["test2"].Points.AddXY
+                chart1.Series["Miasta"].Points.AddXY
                                 (points[i].x, points[i].y);
             }
-
-           
+            chart1.Series["Drogi"].Points.AddXY
+                (points[points.Count - 1].x, points[points.Count - 1].y);
+            chart1.Series["Miasta"].Points.AddXY
+                            (points[points.Count - 1].x, points[points.Count - 1].y);
 
         }
 
@@ -95,8 +97,8 @@ namespace komiwojazer
 
         private void button4_Click(object sender, EventArgs e)//Mieszaj
         {
-            chart1.Series["test1"].Points.Clear();
-            chart1.Series["test2"].Points.Clear();
+            chart1.Series["Drogi"].Points.Clear();
+            chart1.Series["Miasta"].Points.Clear();
 
             listBox1.Items.Clear();
             population = citiesManager.GetUniqueList(numOfPopulation, points);

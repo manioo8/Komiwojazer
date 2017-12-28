@@ -12,13 +12,13 @@ namespace komiwojazer.GUITHelper
     {
         public static void InitChart(Chart _chart)
         {
-            _chart.Series["test1"].ChartType =
+            _chart.Series["Drogi"].ChartType =
                                 SeriesChartType.FastLine;
-            _chart.Series["test1"].Color = Color.Blue;
+            _chart.Series["Drogi"].Color = Color.Blue;
 
-            _chart.Series["test2"].ChartType =
+            _chart.Series["Miasta"].ChartType =
                                 SeriesChartType.FastPoint;
-            _chart.Series["test2"].Color = Color.Red;
+            _chart.Series["Miasta"].Color = Color.Red;
         }
     }
 }

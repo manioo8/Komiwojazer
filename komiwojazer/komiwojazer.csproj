@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlgorithmManager\Algotithm.cs" />
-    <Compile Include="AlgorithmManager\DistanceManager.cs" />
     <Compile Include="AlgorithmManager\NonRepeatVector.cs" />
     <Compile Include="AlgorithmManager\ShufflList.cs" />
     <Compile Include="Form1.cs">
