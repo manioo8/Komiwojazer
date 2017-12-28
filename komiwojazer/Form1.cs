@@ -21,6 +21,7 @@ namespace komiwojazer
         NonRepeatVector citiesManager = new NonRepeatVector();
         List<List<Point>> population;
         int numOfPopulation = 5;
+        Algorithm algorithm;
         
 
         public Form1()
@@ -63,10 +64,14 @@ namespace komiwojazer
         private void button2_Click(object sender, EventArgs e)//Licz odległość
         {
             points.Add(points[0]);
+            algorithm = new Algorithm(points);
+            algorithm.ManageTSP();
+            algorithm.WyliczTabeleOdleglosci();
+
             listBox1.Items.Add("City (" + points[points.Count - 1].x.ToString() + "; " + points[points.Count - 1].y.ToString() + ")");
-            for (int i = 0; i < points.Count - 1; ++i)
+            for (int i = 0; i < points.Count - 2; ++i)
             {
-                lengths.Add(step.GetLength(points[i], points[i + 1]));
+                lengths.Add(algorithm.DistanceBetweenCities(i, i + 1));
                 listBox2.Items.Add(lengths[i].ToString());
                 chart1.Series["test1"].Points.AddXY
                                 (points[i].x, points[i].y);
@@ -74,8 +79,8 @@ namespace komiwojazer
                                 (points[i].x, points[i].y);
             }
 
-            ChartHelper.InitChart(chart1);
- 
+           
+
         }
 
         private void button3_Click(object sender, EventArgs e)
