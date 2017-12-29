@@ -17,8 +17,9 @@ namespace komiwojazer
     {
         List<Point> points = new List<Point>();
         List<double> lengths = new List<double>();
-        Step step = new Step();
+        List<double> populationLengths = new List<double>();
         NonRepeatVector citiesManager = new NonRepeatVector();
+        PopulationScanner populationScanner = new PopulationScanner();
         List<List<Point>> population;
         int numOfPopulation = 5;
         Algorithm algorithm;
@@ -64,24 +65,32 @@ namespace komiwojazer
         private void button2_Click(object sender, EventArgs e)//Licz odległość
         {
             points.Add(points[0]);
-            algorithm = new Algorithm(points);
-            algorithm.ManageTSP();
-            algorithm.WyliczTabeleOdleglosci();
+            algorithm = new Algorithm();
+           // algorithm.ManageTSP(points);
+           // algorithm.WyliczTabeleOdleglosci();
 
-            listBox1.Items.Add("City (" + points[points.Count - 1].x.ToString() + "; " + points[points.Count - 1].y.ToString() + ")");
-            for (int i = 0; i < points.Count - 1; ++i)
+            listBox1.Items.Add("City (" + 
+                points[points.Count - 1].x.ToString() + "; " + 
+                points[points.Count - 1].y.ToString() + ")");
+
+            for (int j = 0; j < numOfPopulation; j++)
             {
-                lengths.Add(algorithm.DistanceBetweenCities(i, i + 1));
-                listBox2.Items.Add(lengths[i].ToString());
-                chart1.Series["Drogi"].Points.AddXY
-                                (points[i].x, points[i].y);
-                chart1.Series["Miasta"].Points.AddXY
-                                (points[i].x, points[i].y);
+                algorithm.ManageTSP(population[j]);
+                algorithm.WyliczTabeleOdleglosci();
+                for (int i = 0; i < population[j].Count-1; i++)
+                {
+                    lengths.Add(algorithm.DistanceBetweenCities(i, i + 1));
+                }
+                populationLengths.Add(lengths.Sum());
+                lengths.Clear();
             }
-            chart1.Series["Drogi"].Points.AddXY
-                (points[points.Count - 1].x, points[points.Count - 1].y);
-            chart1.Series["Miasta"].Points.AddXY
-                            (points[points.Count - 1].x, points[points.Count - 1].y);
+            for (int i = 0; i < numOfPopulation; i++)
+            {
+                listBox2.Items.Add(populationLengths[i].ToString());
+            }
+            
+            
+
 
         }
 
@@ -102,6 +111,7 @@ namespace komiwojazer
 
             listBox1.Items.Clear();
             population = citiesManager.GetUniqueList(numOfPopulation, points);
+            
 
             DisplayManager.AddPointsToChart(chart1, listBox1, population, numOfPopulation);
         }

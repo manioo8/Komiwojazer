@@ -7,11 +7,11 @@ namespace komiwojazer
         List<Point> OneRoad { get; set;}
         double[][] citiesDistances;
         double[,] koordynaty { get; set; }
-        public Algorithm(List<Point> _oneRoad) => OneRoad = _oneRoad;
+        
 
-        public void ManageTSP()
+        public void ManageTSP(List<Point> _oneRoad)
         {
-
+            OneRoad = _oneRoad;
             koordynaty = new double[OneRoad.Count, 2];//inicjalizacja tablicy z pozycjami x i y miast
 
 
