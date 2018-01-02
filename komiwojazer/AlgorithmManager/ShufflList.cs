@@ -13,7 +13,7 @@ namespace komiwojazer.AlgorithmManager
         public static List<Point> Shuffle(List<Point> list)
         {
             //RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
-            int n = list.Count;
+            int n = list.Count-1;
             while (n > 1)
             {
                 byte[] box = new byte[1];
@@ -24,8 +24,8 @@ namespace komiwojazer.AlgorithmManager
 
                 int k = (box[0] % n);
                 n--;
-                Point value = list[k];
-                list[k] = list[n];
+                Point value = list[k+1];
+                list[k+1] = list[n];
                 list[n] = value;
 
             }

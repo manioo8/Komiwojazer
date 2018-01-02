@@ -3,27 +3,52 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace komiwojazer.AlgorithmManager
 {
     public class PopulationScanner
     {
-        public List<List<Point>> population;
-        public List<double> populationLengths;
-        public List<double> GetLengthsArray(Algorithm _algorithm, List<List<Point>> _population)
+        
+        public static void ManageLengthsArray(
+            Algorithm _algorithm,
+            List<List<Point>> _population,
+            List<double> lengths,
+            ListBox _listBox, 
+            int _numOfPopulation,
+            List<double> _populationLengths)
         {
-            population = _population;
-            populationLengths = new List<double>(population.Count - 1);
-            for (int i =0; i<population.Count-1;i++)
+            for (int j = 0; j < _numOfPopulation; j++)
             {
-                _algorithm.ManageTSP(population[i]);
-                for (int j= 0; j < population[i].Count - 1; j++)
+                _algorithm.ManageTSP(_population[j]);
+                _algorithm.WyliczTabeleOdleglosci();
+                for (int i = 0; i < _population[j].Count - 1; i++)
                 {
-                    populationLengths[i]+=_algorithm.DistanceBetweenCities(j, j+1);
+                    lengths.Add(_algorithm.DistanceBetweenCities(i, i + 1));
                 }
+                _populationLengths.Add(lengths.Sum());
+                lengths.Clear();
             }
-         
-            return populationLengths;
+
+            for (int i = 0; i < _numOfPopulation; i++)
+            {
+                _listBox.Items.Add(_populationLengths[i].ToString());
+            }
+
         }
-    }
+        public static int GetInedXOfOptimalElement(List<double> _populationLengths)
+        {
+            List<double> sortedList = new List<double>(_populationLengths);
+            sortedList.Sort();
+            int index=0;
+            for(int i = 0; i < _populationLengths.Count-1; i++)
+            {
+                if (_populationLengths[i] == sortedList[0])
+                {
+                    index = i;
+                }                
+            }
+            return index;
+        }
+    } 
 }

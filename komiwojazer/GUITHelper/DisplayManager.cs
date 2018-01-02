@@ -27,14 +27,12 @@ namespace komiwojazer.GUITHelper
 
             }
         }
-        public static void DeleteLastPoint(Chart _form, ListBox _listBox, List<Point> _points) //deletes last point from the Chart, Listbox and List of points
+        public static void DeleteLastPoint(ListBox _listBox, List<Point> _points) //deletes last point from the Chart, Listbox and List of points
         {
             if (_points.Count >= 1)
-            {
-                _points.RemoveAt(_points.Count - 1);
+            {   
                 _listBox.Items.RemoveAt(_listBox.Items.Count - 1);
-                _form.Series["Drogi"].Points.RemoveAt(_points.Count - 1);
-                _form.Series["Miasta"].Points.RemoveAt(_points.Count - 1);
+                _points.RemoveAt(_points.Count - 1);
             }
         }
 

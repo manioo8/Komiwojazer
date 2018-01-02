@@ -58,6 +58,7 @@
     </Compile>
     <Compile Include="GUITHelper\ChartHelper.cs" />
     <Compile Include="GUITHelper\DisplayManager.cs" />
+    <Compile Include="GUITHelper\GUIHelper.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

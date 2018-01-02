@@ -21,7 +21,8 @@ namespace komiwojazer
         NonRepeatVector citiesManager = new NonRepeatVector();
         PopulationScanner populationScanner = new PopulationScanner();
         List<List<Point>> population;
-        int numOfPopulation = 5;
+        int numOfPopulation = 20;
+        int optimalIndex;
         Algorithm algorithm;
         
 
@@ -37,14 +38,14 @@ namespace komiwojazer
 
         private void button1_Click(object sender, EventArgs e)
         {
-            double x = Convert.ToDouble(textBox1.Text);
-            double y = Convert.ToDouble(textBox2.Text);
-            textBox1.Text = String.Empty;
-            textBox2.Text = String.Empty;
-            this.ActiveControl = textBox1;
-            points.Add(new Point(x, y));
-            listBox1.Items.Add("City (" + x.ToString() + "; " + y.ToString() + ")");
-
+            GUIHelper.AddElementtoBase(
+                Convert.ToDouble(textBox1.Text),
+                Convert.ToDouble(textBox2.Text),
+                textBox1,
+                textBox2,
+                listBox1, 
+                this,
+                points);
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -66,37 +67,25 @@ namespace komiwojazer
         {
             points.Add(points[0]);
             algorithm = new Algorithm();
-           // algorithm.ManageTSP(points);
-           // algorithm.WyliczTabeleOdleglosci();
 
+            listBox2.Items.Clear();
             listBox1.Items.Add("City (" + 
                 points[points.Count - 1].x.ToString() + "; " + 
                 points[points.Count - 1].y.ToString() + ")");
 
-            for (int j = 0; j < numOfPopulation; j++)
-            {
-                algorithm.ManageTSP(population[j]);
-                algorithm.WyliczTabeleOdleglosci();
-                for (int i = 0; i < population[j].Count-1; i++)
-                {
-                    lengths.Add(algorithm.DistanceBetweenCities(i, i + 1));
-                }
-                populationLengths.Add(lengths.Sum());
-                lengths.Clear();
-            }
-            for (int i = 0; i < numOfPopulation; i++)
-            {
-                listBox2.Items.Add(populationLengths[i].ToString());
-            }
-            
-            
-
-
+            NonRepeatVector.RemoveDuplicates(population);
+            PopulationScanner.ManageLengthsArray(
+                algorithm,
+                population,
+                lengths,
+                listBox2,
+                numOfPopulation,
+                populationLengths);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            DisplayManager.DeleteLastPoint(chart1, listBox1, points);
+            DisplayManager.DeleteLastPoint(listBox1, points);
         }
 
         private void chart1_Click(object sender, EventArgs e)
@@ -109,15 +98,37 @@ namespace komiwojazer
             chart1.Series["Drogi"].Points.Clear();
             chart1.Series["Miasta"].Points.Clear();
 
-            listBox1.Items.Clear();
+            listBox2.Items.Clear();
             population = citiesManager.GetUniqueList(numOfPopulation, points);
             
 
             DisplayManager.AddPointsToChart(chart1, listBox1, population, numOfPopulation);
+            button3.Enabled = false;
+            button1.Enabled = false;
         }
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
 
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            listBox1.Items.Clear();
+            listBox2.Items.Clear();
+            chart1.Series["Drogi"].Points.Clear();
+            chart1.Series["Miasta"].Points.Clear();
+            optimalIndex = PopulationScanner.GetInedXOfOptimalElement(populationLengths);
+
+            for (int j = 0; j <= population[4].Count - 1; ++j)
+            {
+                chart1.Series["Drogi"].Points.AddXY
+                (population[optimalIndex][j].x, population[optimalIndex][j].y);
+                chart1.Series["Miasta"].Points.AddXY
+                (population[optimalIndex][j].x, population[optimalIndex][j].y);
+                
+                listBox1.Items.Add("City (" + population[optimalIndex][j].x.ToString() + "; " + population[optimalIndex][j].y.ToString() + ")");
+            }
+            listBox2.Items.Add(populationLengths[optimalIndex].ToString());
         }
     }
 }
