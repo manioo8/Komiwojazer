@@ -102,7 +102,7 @@ namespace komiwojazer.AlgorithmManager
             ListBox _listBox,
             int _numOfPopulation,
             List<double> _populationLengths,
-            int startIndex,//od którego indeksu populacji ma liczyć
+            int startIndex,//od którego indeksu populacji ma liczyć.
             int stopIndex)//do którego włącznie ma liczyć
                           //podstawowo liczy się od zerowego do population.Count
         {

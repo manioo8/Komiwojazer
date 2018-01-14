@@ -25,6 +25,8 @@ namespace komiwojazer
         int numOfPopulation = 200;
         int optimalIndex;
         Algorithm algorithm;
+
+       
         
 
         //funkcja do odpalania ManageLengthsArray jako osobny wątek
@@ -224,6 +226,9 @@ namespace komiwojazer
                 listBox1.Items.Add("City (" + population[optimalIndex][j].x.ToString() + "; " + population[optimalIndex][j].y.ToString() + ")");
             }
             listBox2.Items.Add(populationLengths[optimalIndex].ToString());
+            button4.Enabled = false;
+            button2.Enabled = false;
+            button5.Enabled = false;
         }
     }
 }
