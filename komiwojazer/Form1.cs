@@ -22,7 +22,7 @@ namespace komiwojazer
         NonRepeatVector citiesManager = new NonRepeatVector();
         PopulationScanner populationScanner = new PopulationScanner();
         List<List<Point>> population;
-        int numOfPopulation = 20;
+        int numOfPopulation = 200;
         int optimalIndex;
         Algorithm algorithm;
         
@@ -45,6 +45,20 @@ namespace komiwojazer
         public Thread StartTheThread2(Algorithm _algorithm, List<List<Point>> _population, List<double> lengths, ListBox _listBox, int _numOfPopulation, List<double> _populationLengths, int startIndex, int stopIndex)
         {
             var t = new Thread(() => PopulationScanner.ManageLengthsArray2(
+                algorithm,
+                population,
+                lengths,
+                listBox2,
+                numOfPopulation,
+                populationLengths,
+                startIndex,
+                stopIndex));
+            t.Start();
+            return t;
+        }
+        public Thread StartTheThread3(Algorithm _algorithm, List<List<Point>> _population, List<double> lengths, ListBox _listBox, int _numOfPopulation, List<double> _populationLengths, int startIndex, int stopIndex)
+        {
+            var t = new Thread(() => PopulationScanner.ManageLengthsArray3(
                 algorithm,
                 population,
                 lengths,
@@ -109,31 +123,55 @@ namespace komiwojazer
             numOfPopulation = population.Count;//populacja się zmniejszyła
             List<double> populationLengths1 = new List<double>();
             List<double> populationLengths2 = new List<double>();
+            List<double> populationLengths3 = new List<double>();
+            List<double> lengths1 = new List<double>();
+            List<double> lengths2 = new List<double>();
+            List<double> lengths3 = new List<double>();
             //zaczynamy osobny wątek z funkcją ManageLengthsArray
+            PopulationScanner.ManageLengthsArray(
+                algorithm,
+                population,
+                lengths,
+                listBox2,
+                numOfPopulation,
+                populationLengths,
+                0,
+                numOfPopulation/4-1);
             Thread thread1 = StartTheThread1(
                 algorithm,
                 population,
-                lengths,
+                lengths1,
                 listBox2,
                 numOfPopulation,
                 populationLengths1,
-                0,
-                numOfPopulation / 2);
+                numOfPopulation / 4,
+                numOfPopulation*2 / 4-1);
             Thread thread2 = StartTheThread2(
                 algorithm,
                 population,
-                lengths,
+                lengths2,
                 listBox2,
                 numOfPopulation,
                 populationLengths2,
-                numOfPopulation / 2 + 1,
-                numOfPopulation-1);
+                numOfPopulation * 2 / 4 ,
+                numOfPopulation*3/4-1);
+            Thread thread3 = StartTheThread3(
+                algorithm,
+                population,
+                lengths3,
+                listBox2,
+                numOfPopulation,
+                populationLengths3,
+                numOfPopulation*3/4,
+                numOfPopulation - 1);
             //czekamy aż się zakończy, żeby dodać wszystkie odległości po kolei do listbox2
             thread1.Join();
             thread2.Join();
+            thread3.Join();
             populationLengths.AddRange(populationLengths1);
             populationLengths.AddRange(populationLengths2);
-            for (int i = 0; i < numOfPopulation; i++)
+            populationLengths.AddRange(populationLengths3);
+            for (int i = 0; i < populationLengths.Count; i++)
             {
                 listBox2.Items.Add(populationLengths[i].ToString());
             }

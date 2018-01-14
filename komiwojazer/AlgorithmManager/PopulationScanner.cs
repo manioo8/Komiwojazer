@@ -19,13 +19,14 @@ namespace komiwojazer.AlgorithmManager
             int _numOfPopulation,
             List<double> _populationLengths)
         {
+            double[][] citiesDistances=null;
             for (int j = 0; j < _numOfPopulation; j++)
             {
-                _algorithm.ManageTSP(_population[j]);
-                _algorithm.WyliczTabeleOdleglosci();
+                citiesDistances = _algorithm.ManageTSP(_population[j], citiesDistances);
+                //_algorithm.WyliczTabeleOdleglosci();
                 for (int i = 0; i < _population[j].Count - 1; i++)
                 {
-                    lengths.Add(_algorithm.DistanceBetweenCities(i, i + 1));
+                    lengths.Add(_algorithm.DistanceBetweenCities(i, i + 1, citiesDistances ));
                 }
                 _populationLengths.Add(lengths.Sum());
                 lengths.Clear();
@@ -35,6 +36,34 @@ namespace komiwojazer.AlgorithmManager
             {
                 _listBox.Items.Add(_populationLengths[i].ToString());
             }
+
+        }
+
+        public static void ManageLengthsArray(
+            Algorithm _algorithm,
+            List<List<Point>> _population,
+            List<double> lengths,
+            ListBox _listBox,
+            int _numOfPopulation,
+            List<double> _populationLengths,
+            int startIndex,//od którego indeksu populacji ma liczyć
+            int stopIndex)//do którego włącznie ma liczyć
+                          //podstawowo liczy się od zerowego do population.Count
+        {
+            double[][] citiesDistances = null;
+            for (int j = startIndex; j < stopIndex + 1; j++)
+            {
+                citiesDistances = _algorithm.ManageTSP(_population[j], citiesDistances);
+                //_algorithm.WyliczTabeleOdleglosci();
+                for (int i = 0; i < _population[j].Count - 1; i++)
+                {
+                    lengths.Add(_algorithm.DistanceBetweenCities(i, i + 1, citiesDistances));
+                }
+                _populationLengths.Add(lengths.Sum());
+                lengths.Clear();
+            }
+
+
 
         }
 
@@ -49,18 +78,16 @@ namespace komiwojazer.AlgorithmManager
             int stopIndex)//do którego włącznie ma liczyć
             //podstawowo liczy się od zerowego do population.Count
         {
-
+            double[][] citiesDistances = null;
             for (int j = startIndex; j < stopIndex + 1; j++)
             {
-                _algorithm.ManageTSP(_population[j]);
-                _algorithm.WyliczTabeleOdleglosci();
+                citiesDistances = _algorithm.ManageTSP(_population[j], citiesDistances);
+                //_algorithm.WyliczTabeleOdleglosci();
                 for (int i = 0; i < _population[j].Count - 1; i++)
                 {
-                    lengths.Add(_algorithm.DistanceBetweenCities(i, i + 1));
+                    lengths.Add(_algorithm.DistanceBetweenCities(i, i + 1, citiesDistances));
                 }
-
                 _populationLengths.Add(lengths.Sum());
-              
                 lengths.Clear();
             }
 
@@ -79,18 +106,44 @@ namespace komiwojazer.AlgorithmManager
             int stopIndex)//do którego włącznie ma liczyć
                           //podstawowo liczy się od zerowego do population.Count
         {
-
+            double[][] citiesDistances = null;
             for (int j = startIndex; j < stopIndex+1; j++)
             {
-                _algorithm.ManageTSP(_population[j]);
-                _algorithm.WyliczTabeleOdleglosci();
+                citiesDistances = _algorithm.ManageTSP(_population[j], citiesDistances);
+                //_algorithm.WyliczTabeleOdleglosci();
                 for (int i = 0; i < _population[j].Count - 1; i++)
                 {
-                    lengths.Add(_algorithm.DistanceBetweenCities(i, i + 1));
+                    lengths.Add(_algorithm.DistanceBetweenCities(i, i + 1, citiesDistances));
                 }
-
                 _populationLengths.Add(lengths.Sum());
+                lengths.Clear();
+            }
 
+
+
+        }
+
+        public static void ManageLengthsArray3(
+            Algorithm _algorithm,
+            List<List<Point>> _population,
+            List<double> lengths,
+            ListBox _listBox,
+            int _numOfPopulation,
+            List<double> _populationLengths,
+            int startIndex,//od którego indeksu populacji ma liczyć
+            int stopIndex)//do którego włącznie ma liczyć
+                          //podstawowo liczy się od zerowego do population.Count
+        {
+            double[][] citiesDistances = null;
+            for (int j = startIndex; j < stopIndex + 1; j++)
+            {
+                citiesDistances = _algorithm.ManageTSP(_population[j], citiesDistances);
+                //_algorithm.WyliczTabeleOdleglosci();
+                for (int i = 0; i < _population[j].Count - 1; i++)
+                {
+                    lengths.Add(_algorithm.DistanceBetweenCities(i, i + 1, citiesDistances));
+                }
+                _populationLengths.Add(lengths.Sum());
                 lengths.Clear();
             }
 

@@ -5,15 +5,15 @@ namespace komiwojazer
     public class Algorithm
     {
         List<Point> OneRoad { get; set;}
-        double[][] citiesDistances;
+        
         double[,] koordynaty { get; set; }
         
 
-        public void ManageTSP(List<Point> _oneRoad)
+        public double[][] ManageTSP(List<Point> _oneRoad, double[][] citiesDistances)
         {
             OneRoad = _oneRoad;
             koordynaty = new double[OneRoad.Count, 2];//inicjalizacja tablicy z pozycjami x i y miast
-
+            
 
 
             //zapełnianie tablicy koordów miast
@@ -41,11 +41,6 @@ namespace komiwojazer
             //to nie jest 4 i 5 pozycja w tablicy
             //odległość pierwszego miasta od drugiego by była zapisana jako
             //OdlegloscMiedzyMiastami(1,2, ref....) (lub 2,1)
-            
-        }
-
-        public double[][] WyliczTabeleOdleglosci()
-        {
             for (int j = 0; j < citiesDistances.Length; j++)
             {
                 for (int i = 0; i < citiesDistances[j].Length; i++)
@@ -59,7 +54,9 @@ namespace komiwojazer
             }
             return citiesDistances;
         }
-        public double DistanceBetweenCities(int city_1, int city_2)
+
+        
+        public double DistanceBetweenCities(int city_1, int city_2, double[][] citiesDistances)
         {
             if (city_1 == city_2)
             {
