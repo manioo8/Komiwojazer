@@ -127,7 +127,7 @@ namespace komiwojazer
                 numOfPopulation,
                 populationLengths2,
                 numOfPopulation / 2 + 1,
-                numOfPopulation);
+                numOfPopulation-1);
             //czekamy aż się zakończy, żeby dodać wszystkie odległości po kolei do listbox2
             thread1.Join();
             thread2.Join();

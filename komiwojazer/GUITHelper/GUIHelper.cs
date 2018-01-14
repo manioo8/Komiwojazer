@@ -20,7 +20,7 @@ namespace komiwojazer.GUITHelper
         {            
             _textBox1.Text = String.Empty;
             _textBox2.Text = String.Empty;
-            Form1.ActiveControl = _listBox;
+            Form1.ActiveControl = _textBox1;
             _points.Add(new Point(x, y));
             _listBox.Items.Add("City (" + x.ToString() + "; " + y.ToString() + ")");
         }
