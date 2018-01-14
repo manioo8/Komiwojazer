@@ -28,9 +28,23 @@ namespace komiwojazer
         
 
         //funkcja do odpalania ManageLengthsArray jako osobny wątek
-        public Thread StartTheThread(Algorithm _algorithm, List<List<Point>> _population, List<double> lengths, ListBox _listBox, int _numOfPopulation, List<double> _populationLengths, int startIndex,int stopIndex)
+        public Thread StartTheThread1(Algorithm _algorithm, List<List<Point>> _population, List<double> lengths, ListBox _listBox, int _numOfPopulation, List<double> _populationLengths, int startIndex,int stopIndex)
         {
-            var t = new Thread(() => PopulationScanner.ManageLengthsArray(
+            var t = new Thread(() => PopulationScanner.ManageLengthsArray1(
+                algorithm,
+                population,
+                lengths,
+                listBox2,
+                numOfPopulation,
+                populationLengths,
+                startIndex,
+                stopIndex));
+            t.Start();
+            return t;
+        }
+        public Thread StartTheThread2(Algorithm _algorithm, List<List<Point>> _population, List<double> lengths, ListBox _listBox, int _numOfPopulation, List<double> _populationLengths, int startIndex, int stopIndex)
+        {
+            var t = new Thread(() => PopulationScanner.ManageLengthsArray2(
                 algorithm,
                 population,
                 lengths,
@@ -43,7 +57,6 @@ namespace komiwojazer
             return t;
         }
 
-        
         public Form1()
         {
             InitializeComponent();
@@ -92,28 +105,40 @@ namespace komiwojazer
             //    points[points.Count - 1].y.ToString() + ")");
 
             NonRepeatVector.RemoveDuplicates(population);
-            
-            numOfPopulation = population.Count;//populacja się zmniejszyła
 
+            numOfPopulation = population.Count;//populacja się zmniejszyła
+            List<double> populationLengths1 = new List<double>();
+            List<double> populationLengths2 = new List<double>();
             //zaczynamy osobny wątek z funkcją ManageLengthsArray
-            Thread thread1 = StartTheThread(
+            Thread thread1 = StartTheThread1(
                 algorithm,
                 population,
                 lengths,
                 listBox2,
                 numOfPopulation,
-                populationLengths,
+                populationLengths1,
                 0,
+                numOfPopulation / 2);
+            Thread thread2 = StartTheThread2(
+                algorithm,
+                population,
+                lengths,
+                listBox2,
+                numOfPopulation,
+                populationLengths2,
+                numOfPopulation / 2 + 1,
                 numOfPopulation);
-
             //czekamy aż się zakończy, żeby dodać wszystkie odległości po kolei do listbox2
             thread1.Join();
-
+            thread2.Join();
+            populationLengths.AddRange(populationLengths1);
+            populationLengths.AddRange(populationLengths2);
             for (int i = 0; i < numOfPopulation; i++)
             {
                 listBox2.Items.Add(populationLengths[i].ToString());
             }
         }
+        
 
         private void button3_Click(object sender, EventArgs e)
         {

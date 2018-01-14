@@ -34,7 +34,7 @@ namespace komiwojazer
                 citiesDistances[i] = new double[i + 1];
             }
 
-            citiesDistances = WyliczTabeleOdleglosci();//populcaja tablicy odległości
+            //citiesDistances = WyliczTabeleOdleglosci();//populcaja tablicy odległości
 
 
             //przykładowo wypisanie odległości między miastem 4 a 5
