@@ -40,7 +40,7 @@ namespace komiwojazer
             //przykładowo wypisanie odległości między miastem 4 a 5
             //to nie jest 4 i 5 pozycja w tablicy
             //odległość pierwszego miasta od drugiego by była zapisana jako
-            //OdlegloscMiedzyMiastami(1,2, ref....) (lub 2,1)
+            //OdlegloscMiedzyMiastami(1,2, ref....) (lub 2,1).
             
         }
 
