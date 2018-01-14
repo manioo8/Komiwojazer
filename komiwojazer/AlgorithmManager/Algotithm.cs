@@ -56,7 +56,6 @@ namespace komiwojazer
                     citiesDistances[j][i] = Math.Sqrt(Math.Pow(Math.Abs(koordynaty[j + 1, 0] - koordynaty[i, 0]), 2) + Math.Pow(Math.Abs(koordynaty[j + 1, 1] - koordynaty[i, 1]), 2));
                     //Console.WriteLine("miasto {0} do miasta {1} ma {2}", j + 2, i + 1, odleglosciMiast[j][i]);
                 }
-                //Console.WriteLine(" ");
             }
             return citiesDistances;
         }

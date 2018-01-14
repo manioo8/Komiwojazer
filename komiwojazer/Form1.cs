@@ -1,5 +1,6 @@
 ﻿using komiwojazer.AlgorithmManager;
 using System;
+using System.Threading;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -26,6 +27,23 @@ namespace komiwojazer
         Algorithm algorithm;
         
 
+        //funkcja do odpalania ManageLengthsArray jako osobny wątek
+        public Thread StartTheThread(Algorithm _algorithm, List<List<Point>> _population, List<double> lengths, ListBox _listBox, int _numOfPopulation, List<double> _populationLengths, int startIndex,int stopIndex)
+        {
+            var t = new Thread(() => PopulationScanner.ManageLengthsArray(
+                algorithm,
+                population,
+                lengths,
+                listBox2,
+                numOfPopulation,
+                populationLengths,
+                startIndex,
+                stopIndex));
+            t.Start();
+            return t;
+        }
+
+        
         public Form1()
         {
             InitializeComponent();
@@ -74,14 +92,27 @@ namespace komiwojazer
             //    points[points.Count - 1].y.ToString() + ")");
 
             NonRepeatVector.RemoveDuplicates(population);
-            numOfPopulation = population.Count;
-            PopulationScanner.ManageLengthsArray(
+            
+            numOfPopulation = population.Count;//populacja się zmniejszyła
+
+            //zaczynamy osobny wątek z funkcją ManageLengthsArray
+            Thread thread1 = StartTheThread(
                 algorithm,
                 population,
                 lengths,
                 listBox2,
                 numOfPopulation,
-                populationLengths);
+                populationLengths,
+                0,
+                numOfPopulation);
+
+            //czekamy aż się zakończy, żeby dodać wszystkie odległości po kolei do listbox2
+            thread1.Join();
+
+            for (int i = 0; i < numOfPopulation; i++)
+            {
+                listBox2.Items.Add(populationLengths[i].ToString());
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
