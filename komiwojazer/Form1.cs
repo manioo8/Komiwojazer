@@ -15,7 +15,7 @@ namespace komiwojazer
 {
     public partial class Form1 : Form
     {
-        List<Point> points = new List<Point>();
+        List<Point> points = new List<Point>();       //lista punktow x i y miast
         List<double> lengths = new List<double>();
         List<double> populationLengths = new List<double>();
         NonRepeatVector citiesManager = new NonRepeatVector();
@@ -36,7 +36,7 @@ namespace komiwojazer
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)//dodaj miasto
         {
             GUIHelper.AddElementtoBase(
                 Convert.ToDouble(textBox1.Text),
@@ -69,11 +69,12 @@ namespace komiwojazer
             algorithm = new Algorithm();
 
             listBox2.Items.Clear();
-            listBox1.Items.Add("City (" + 
-                points[points.Count - 1].x.ToString() + "; " + 
-                points[points.Count - 1].y.ToString() + ")");
+            //listBox1.Items.Add("City (" + 
+            //   points[points.Count - 1].x.ToString() + "; " + 
+            //    points[points.Count - 1].y.ToString() + ")");
 
             NonRepeatVector.RemoveDuplicates(population);
+            numOfPopulation = population.Count;
             PopulationScanner.ManageLengthsArray(
                 algorithm,
                 population,
@@ -119,7 +120,7 @@ namespace komiwojazer
             chart1.Series["Miasta"].Points.Clear();
             optimalIndex = PopulationScanner.GetInedXOfOptimalElement(populationLengths);
 
-            for (int j = 0; j <= population[4].Count - 1; ++j)
+            for (int j = 0; j <= population[0].Count - 1; ++j)
             {
                 chart1.Series["Drogi"].Points.AddXY
                 (population[optimalIndex][j].x, population[optimalIndex][j].y);

@@ -23,23 +23,34 @@ namespace komiwojazer.AlgorithmManager
             }
             return population;
         }
-        public static void RemoveDuplicates<T>(IList<T> list)
+        public static void RemoveDuplicates<T>(IList<List<T>> list)
         {
-            if (list == null)
+            if (list == null)//czy pusta lista?
             {
                 return;
             }
             int i = 1;
-            while (i < list.Count)
+            while (i < list.Count)//dla każdej kolejnej listy punktów
             {
                 int j = 0;
                 bool remove = false;
-                while (j < i && !remove)
+                while (j < i && !remove)//sprawdzamy poprzednie listy punktów
                 {
-                    if (list[i].Equals(list[j]))
+                    int equalCount = 0;
+                    for (int k = 0; k < list[j].Count; k++)//czy każdy element następnej nie jest jak w poprzedniej liście
                     {
-                        remove = true;
+                        if (Equals(list[i][k],list[j][k]))
+                        {
+                            equalCount++;
+                            
+                        }
+                        if (equalCount==list[j].Count)//jeśli każdy element listy jast taki sam jak poprzedniej, to wywalamy
+                        {
+                            remove = true;
+                        }
+                        
                     }
+                    
                     j++;
                 }
                 if (remove)
