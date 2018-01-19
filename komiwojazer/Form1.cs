@@ -207,8 +207,7 @@ namespace komiwojazer
                     //sprawdzanie w jakich miejscach sa powtorzenia
                     List<int> miejscaPowtorzen1 = new List<int>();
                     List<int> miejscaPowtorzen2 = new List<int>();
-                    do
-                    {
+                    
                         for (int i = 0; i < tempvec1.Count - 1; i++)//dla kazdego punktu w wektorze
                         {
                             for (int j = i - 1; j >= 0; j--)//dla każdego poprzedniego punktu w tym wektorze
@@ -225,8 +224,8 @@ namespace komiwojazer
                             removedFromVec1.RemoveAt(0);//i zapominamy o tym co usuneliśmy
                             miejscaPowtorzen1.RemoveAt(0);
                         }
-                        //miejscaPowtorzen1.Clear();
-                    } while (miejscaPowtorzen1.Count!=0);
+                        
+                    
                     //to samo dla 2giego wektora
                     for (int i = 0; i < tempvec2.Count - 1; i++)//dla kazdego punktu w wektorze
                     {
