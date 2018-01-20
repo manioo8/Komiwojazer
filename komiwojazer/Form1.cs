@@ -124,9 +124,6 @@ namespace komiwojazer
 
             NonRepeatVector.RemoveDuplicates(population);
 
-            
-
-
             //początek pętli
             for (int glrb = 0; glrb < 3; glrb++)
             {
