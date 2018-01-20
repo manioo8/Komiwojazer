@@ -51,7 +51,7 @@ namespace komiwojazer.AlgorithmManager
                           //podstawowo liczy się od zerowego do population.Count
         {
             double[][] citiesDistances = null;
-            for (int j = startIndex; j < stopIndex + 1; j++)
+            for (int j = startIndex; j < stopIndex; j++)
             {
                 citiesDistances = _algorithm.ManageTSP(_population[j], citiesDistances);
                 //_algorithm.WyliczTabeleOdleglosci();
@@ -79,11 +79,11 @@ namespace komiwojazer.AlgorithmManager
             //podstawowo liczy się od zerowego do population.Count
         {
             double[][] citiesDistances = null;
-            for (int j = startIndex; j < stopIndex + 1; j++)
+            for (int j = startIndex; j < stopIndex; j++)
             {
                 citiesDistances = _algorithm.ManageTSP(_population[j], citiesDistances);
                 //_algorithm.WyliczTabeleOdleglosci();
-                for (int i = 0; i < _population[j].Count - 1; i++)
+                for (int i = 0; i < _population[j].Count-1; i++)
                 {
                     lengths.Add(_algorithm.DistanceBetweenCities(i, i + 1, citiesDistances));
                 }
@@ -107,7 +107,7 @@ namespace komiwojazer.AlgorithmManager
                           //podstawowo liczy się od zerowego do population.Count
         {
             double[][] citiesDistances = null;
-            for (int j = startIndex; j < stopIndex+1; j++)
+            for (int j = startIndex; j < stopIndex; j++)
             {
                 citiesDistances = _algorithm.ManageTSP(_population[j], citiesDistances);
                 //_algorithm.WyliczTabeleOdleglosci();
@@ -135,7 +135,7 @@ namespace komiwojazer.AlgorithmManager
                           //podstawowo liczy się od zerowego do population.Count
         {
             double[][] citiesDistances = null;
-            for (int j = startIndex; j < stopIndex + 1; j++)
+            for (int j = startIndex; j < stopIndex ; j++)
             {
                 citiesDistances = _algorithm.ManageTSP(_population[j], citiesDistances);
                 //_algorithm.WyliczTabeleOdleglosci();
