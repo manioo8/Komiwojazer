@@ -29,12 +29,11 @@ namespace komiwojazer
 
 
         //funkcja do odpalania ManageLengthsArray jako osobny wątek
-        public Thread StartTheThread1(Algorithm _algorithm, List<List<Point>> _population, List<double> lengths, ListBox _listBox, int _numOfPopulation, List<double> _populationLengths, int startIndex,int stopIndex)
+        public Thread StartTheThread1(Algorithm _algorithm, List<List<Point>> _population, ListBox _listBox, int _numOfPopulation, List<double> _populationLengths, int startIndex,int stopIndex)
         {
             var t = new Thread(() => PopulationScanner.ManageLengthsArray1(
                 algorithm,
                 population,
-                lengths,
                 listBox2,
                 numOfPopulation,
                 _populationLengths,
@@ -43,12 +42,11 @@ namespace komiwojazer
             t.Start();
             return t;
         }
-        public Thread StartTheThread2(Algorithm _algorithm, List<List<Point>> _population, List<double> lengths, ListBox _listBox, int _numOfPopulation, List<double> _populationLengths, int startIndex, int stopIndex)
+        public Thread StartTheThread2(Algorithm _algorithm, List<List<Point>> _population, ListBox _listBox, int _numOfPopulation, List<double> _populationLengths, int startIndex, int stopIndex)
         {
             var t = new Thread(() => PopulationScanner.ManageLengthsArray2(
                 algorithm,
                 population,
-                lengths,
                 listBox2,
                 numOfPopulation,
                 _populationLengths,
@@ -57,12 +55,11 @@ namespace komiwojazer
             t.Start();
             return t;
         }
-        public Thread StartTheThread3(Algorithm _algorithm, List<List<Point>> _population, List<double> lengths, ListBox _listBox, int _numOfPopulation, List<double> _populationLengths, int startIndex, int stopIndex)
+        public Thread StartTheThread3(Algorithm _algorithm, List<List<Point>> _population, ListBox _listBox, int _numOfPopulation, List<double> _populationLengths, int startIndex, int stopIndex)
         {
             var t = new Thread(() => PopulationScanner.ManageLengthsArray3(
                 algorithm,
                 population,
-                lengths,
                 listBox2,
                 numOfPopulation,
                 _populationLengths,
@@ -134,27 +131,28 @@ namespace komiwojazer
 
 
 
-                {//wyliczanie odległości
-                    List<double> populationLengths1 = new List<double>();
-                    List<double> populationLengths2 = new List<double>();
-                    List<double> populationLengths3 = new List<double>();
-                    List<double> lengths1 = new List<double>();
-                    List<double> lengths2 = new List<double>();
-                    List<double> lengths3 = new List<double>();
-                    //zaczynamy osobny wątek z funkcją ManageLengthsArray
-                    //każda z tych funkcji wylicza drogę dla kolejnych elementów populacji
-                    PopulationScanner.ManageLengthsArray(algorithm, population, lengths, listBox2, numOfPopulation, populationLengths, 0, numOfPopulation / 4);
-                    Thread thread1 = StartTheThread1(algorithm, population, lengths1, listBox2, numOfPopulation, populationLengths1, numOfPopulation / 4, numOfPopulation * 2 / 4);
-                    Thread thread2 = StartTheThread2(algorithm, population, lengths2, listBox2, numOfPopulation, populationLengths2, numOfPopulation * 2 / 4, numOfPopulation * 3 / 4);
-                    Thread thread3 = StartTheThread3(algorithm, population, lengths3, listBox2, numOfPopulation, populationLengths3, numOfPopulation * 3 / 4, numOfPopulation);
-                    //czekamy aż się zakończy, żeby dodać wszystkie odległości po kolei do listbox2
-                    thread1.Join();
-                    thread2.Join();
-                    thread3.Join();
-                    populationLengths.AddRange(populationLengths1);
-                    populationLengths.AddRange(populationLengths2);
-                    populationLengths.AddRange(populationLengths3);
-                }
+                //wyliczanie odległości
+                List<double> populationLengths1 = new List<double>();
+                List<double> populationLengths2 = new List<double>();
+                List<double> populationLengths3 = new List<double>();
+                //zaczynamy osobny wątek z funkcją ManageLengthsArray
+                //każda z tych funkcji wylicza drogę dla kolejnych elementów populacji
+                PopulationScanner.ManageLengthsArray(algorithm, population, listBox2, numOfPopulation, populationLengths, 0, numOfPopulation / 4);
+                Thread thread1 = StartTheThread1(algorithm, population, listBox2, numOfPopulation, populationLengths1, numOfPopulation / 4, numOfPopulation * 2 / 4);
+                Thread thread2 = StartTheThread2(algorithm, population, listBox2, numOfPopulation, populationLengths2, numOfPopulation * 2 / 4, numOfPopulation * 3 / 4);
+                Thread thread3 = StartTheThread3(algorithm, population, listBox2, numOfPopulation, populationLengths3, numOfPopulation * 3 / 4, numOfPopulation);
+                //czekamy aż się zakończy, żeby dodać wszystkie odległości po kolei do listbox2
+                thread1.Join();
+                thread2.Join();
+                thread3.Join();
+                populationLengths.AddRange(populationLengths1);
+                populationLengths.AddRange(populationLengths2);
+                populationLengths.AddRange(populationLengths3);
+                populationLengths1.Clear();
+                populationLengths2.Clear();
+                populationLengths3.Clear();
+
+
 
                 //wyrzucamy każdy element populacji którego odległość jest mniejsza niż średnia
                 double srednia = populationLengths.Average();
@@ -170,7 +168,9 @@ namespace komiwojazer
 
 
                 //dorabiamy pół populacji przez rekombinowanie kolejnych dwóch elementów
+
                 List<List<Point>> randomlyGeneratedPopulation = new List<List<Point>>();
+
                 for (int f = 0; f < population.Count - 1; f++)
                 {
 
@@ -313,35 +313,20 @@ namespace komiwojazer
                     }
                     miejscaPowtorzen2.Clear();
                     removedFromVec2.Clear();
-                    { }
-
-
-
-
-
+                    
                     //tu wektory nie mają powtórzeń
 
                     randomlyGeneratedPopulation.Add(tempvec1);
                     randomlyGeneratedPopulation.Add(tempvec2);
 
-                    //test powtorzenia
-                    //int powtorzenie=0;
-                    //for (int i = 0; i < tempvec1.Count; i++)//dla kazdego punktu w wektorze
-                    //{
-                    //    for (int j = i - 1; j >= 0; j--)//dla każdego poprzedniego punktu w tym wektorze
-                    //    {
-                    //        if (Equals(tempvec1[i], tempvec1[j]))//jesli poprzedni był już taki jaki jest teraz
-                    //        {
-                    //            powtorzenie++;
-                    //            //tempvec1[i] = removedFromVec1[0];//to ten teraz zamieniamy z czymś co usuneliśmy
-                    //            //removedFromVec1.RemoveAt(0);//i zapominamy o tym co usuneliśmy
-                    //        }
-                    //    }
-                    //}
-                }
+                   }
+
                 population.AddRange(randomlyGeneratedPopulation);
                 randomlyGeneratedPopulation.Clear();
-                populationLengths.Clear();
+                if (glrb!=2)
+                {
+                    populationLengths.Clear();
+                }  
             }
             //koniec pętli
             for (int i = 0; i < populationLengths.Count; i++)

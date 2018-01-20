@@ -14,11 +14,11 @@ namespace komiwojazer.AlgorithmManager
         public static void ManageLengthsArray(
             Algorithm _algorithm,
             List<List<Point>> _population,
-            List<double> lengths,
             ListBox _listBox, 
             int _numOfPopulation,
             List<double> _populationLengths)
         {
+            List<double> lengths = new List<double>();
             double[][] citiesDistances=null;
             for (int j = 0; j < _numOfPopulation; j++)
             {
@@ -42,7 +42,6 @@ namespace komiwojazer.AlgorithmManager
         public static void ManageLengthsArray(
             Algorithm _algorithm,
             List<List<Point>> _population,
-            List<double> lengths,
             ListBox _listBox,
             int _numOfPopulation,
             List<double> _populationLengths,
@@ -50,6 +49,7 @@ namespace komiwojazer.AlgorithmManager
             int stopIndex)//do którego włącznie ma liczyć
                           //podstawowo liczy się od zerowego do population.Count
         {
+            List<double> lengths = new List<double>();
             double[][] citiesDistances = null;
             for (int j = startIndex; j < stopIndex; j++)
             {
@@ -70,7 +70,6 @@ namespace komiwojazer.AlgorithmManager
         public static void ManageLengthsArray1(
             Algorithm _algorithm,
             List<List<Point>> _population,
-            List<double> lengths,
             ListBox _listBox,
             int _numOfPopulation,
             List<double> _populationLengths,
@@ -78,6 +77,7 @@ namespace komiwojazer.AlgorithmManager
             int stopIndex)//do którego włącznie ma liczyć
             //podstawowo liczy się od zerowego do population.Count
         {
+            List<double> lengths = new List<double>();
             double[][] citiesDistances = null;
             for (int j = startIndex; j < stopIndex; j++)
             {
@@ -98,7 +98,6 @@ namespace komiwojazer.AlgorithmManager
         public static void ManageLengthsArray2(
             Algorithm _algorithm,
             List<List<Point>> _population,
-            List<double> lengths,
             ListBox _listBox,
             int _numOfPopulation,
             List<double> _populationLengths,
@@ -106,6 +105,7 @@ namespace komiwojazer.AlgorithmManager
             int stopIndex)//do którego włącznie ma liczyć
                           //podstawowo liczy się od zerowego do population.Count
         {
+            List<double> lengths = new List<double>();
             double[][] citiesDistances = null;
             for (int j = startIndex; j < stopIndex; j++)
             {
@@ -126,7 +126,6 @@ namespace komiwojazer.AlgorithmManager
         public static void ManageLengthsArray3(
             Algorithm _algorithm,
             List<List<Point>> _population,
-            List<double> lengths,
             ListBox _listBox,
             int _numOfPopulation,
             List<double> _populationLengths,
@@ -134,6 +133,7 @@ namespace komiwojazer.AlgorithmManager
             int stopIndex)//do którego włącznie ma liczyć
                           //podstawowo liczy się od zerowego do population.Count
         {
+            List<double> lengths = new List<double>();
             double[][] citiesDistances = null;
             for (int j = startIndex; j < stopIndex ; j++)
             {
