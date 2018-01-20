@@ -132,25 +132,25 @@ namespace komiwojazer
 
 
                 //wyliczanie odległości
-                //List<double> populationLengths1 = new List<double>();
-                //List<double> populationLengths2 = new List<double>();
-                //List<double> populationLengths3 = new List<double>();
+                List<double> populationLengths1 = new List<double>();
+                List<double> populationLengths2 = new List<double>();
+                List<double> populationLengths3 = new List<double>();
                 //zaczynamy osobny wątek z funkcją ManageLengthsArray
                 //każda z tych funkcji wylicza drogę dla kolejnych elementów populacji
-                PopulationScanner.ManageLengthsArray(algorithm, population, listBox2, numOfPopulation, populationLengths, 0, numOfPopulation);
-                //Thread thread1 = StartTheThread1(algorithm, population, listBox2, numOfPopulation, populationLengths1, numOfPopulation / 4, numOfPopulation * 2 / 4);
-                //Thread thread2 = StartTheThread2(algorithm, population, listBox2, numOfPopulation, populationLengths2, numOfPopulation * 2 / 4, numOfPopulation * 3 / 4);
-                //Thread thread3 = StartTheThread3(algorithm, population, listBox2, numOfPopulation, populationLengths3, numOfPopulation * 3 / 4, numOfPopulation);
+                PopulationScanner.ManageLengthsArray(algorithm, population, listBox2, numOfPopulation, populationLengths, 0, numOfPopulation / 4);
+                Thread thread1 = StartTheThread1(algorithm, population, listBox2, numOfPopulation, populationLengths1, numOfPopulation / 4, numOfPopulation * 2 / 4);
+                Thread thread2 = StartTheThread2(algorithm, population, listBox2, numOfPopulation, populationLengths2, numOfPopulation * 2 / 4, numOfPopulation * 3 / 4);
+                Thread thread3 = StartTheThread3(algorithm, population, listBox2, numOfPopulation, populationLengths3, numOfPopulation * 3 / 4, numOfPopulation);
                 //czekamy aż się zakończy, żeby dodać wszystkie odległości po kolei do listbox2
-                //thread1.Join();
-                //thread2.Join();
-                //thread3.Join();
-                //populationLengths.AddRange(populationLengths1);
-                //populationLengths.AddRange(populationLengths2);
-                //populationLengths.AddRange(populationLengths3);
-                //populationLengths1.Clear();
-                //populationLengths2.Clear();
-                //populationLengths3.Clear();
+                thread1.Join();
+                thread2.Join();
+                thread3.Join();
+                populationLengths.AddRange(populationLengths1);
+                populationLengths.AddRange(populationLengths2);
+                populationLengths.AddRange(populationLengths3);
+                populationLengths1.Clear();
+                populationLengths2.Clear();
+                populationLengths3.Clear();
 
 
 
@@ -166,33 +166,39 @@ namespace komiwojazer
                 //    }
                 //}
 
-                //zostawiamy pierwsze 200 elementów populacji
-                SortedList posortowanaLista = new SortedList();
-                for (int i = 0; i < populationLengths.Count; i++)
+                
+
+                if (glrb!=0)
                 {
-                    try
+                    //zostawiamy pierwsze 200 elementów populacji
+                    SortedList posortowanaLista = new SortedList();
+                    for (int i = 0; i < populationLengths.Count; i++)
                     {
-                        posortowanaLista.Add(populationLengths[i], population[i]);
-                    }
-                    catch (ArgumentException)
-                    {
-                        populationLengths.RemoveAt(i);
-                        population.RemoveAt(i);
-                        i--;
-                    }
+                        try
+                        {
+                            posortowanaLista.Add(populationLengths[i], population[i]);
+                        }
+                        catch (ArgumentException)
+                        {
+                            populationLengths.RemoveAt(i);
+                            population.RemoveAt(i);
+                            i--;
+                        }
                     
+                    }
+
+                    populationLengths.Clear();
+                    population.Clear();
+
+                    for (int i = 0; i < orgNumOfPopulation; i++)
+                    {
+                        populationLengths.Add((double)posortowanaLista.GetKey(i));
+                        population.Add((List<Point>)posortowanaLista.GetByIndex(i));
+                    }
+
+                    posortowanaLista.Clear();
                 }
-
-                populationLengths.Clear();
-                population.Clear();
-
-                for (int i = 0; i < orgNumOfPopulation; i++)
-                {
-                    populationLengths.Add((double)posortowanaLista.GetKey(i));
-                    population.Add((List<Point>)posortowanaLista.GetByIndex(i));
-                }
-
-                posortowanaLista.Clear();
+                
 
 
                 if (glrb!=(iloscPowtorzenRekombinacjiPopulacji-1))
