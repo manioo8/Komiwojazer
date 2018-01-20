@@ -11,9 +11,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using komiwojazer.GUITHelper;
+using System.Collections;
 
 namespace komiwojazer
 {
+
     public partial class Form1 : Form
     {
         List<Point> points = new List<Point>();       //lista punktow x i y miast
@@ -120,9 +122,10 @@ namespace komiwojazer
             //    points[points.Count - 1].y.ToString() + ")");
 
             NonRepeatVector.RemoveDuplicates(population);
-
+            int iloscPowtorzenRekombinacjiPopulacji = 10;
+            int orgNumOfPopulation = numOfPopulation;
             //początek pętli
-            for (int glrb = 0; glrb < 10; glrb++)
+            for (int glrb = 0; glrb < iloscPowtorzenRekombinacjiPopulacji; glrb++)
             {
                 numOfPopulation = population.Count;//populacja się zmniejszyła
                 populationLengths.Clear();
@@ -151,61 +154,91 @@ namespace komiwojazer
 
 
 
-                //wyrzucamy każdy element populacji którego odległość jest mniejsza niż średnia
-                double srednia = populationLengths.Average();
+                ////wyrzucamy każdy element populacji którego odległość jest mniejsza niż średnia
+                //double srednia = populationLengths.Average();
+                //for (int i = 0; i < populationLengths.Count; i++)
+                //{
+                //    if (populationLengths[i] < srednia)
+                //    {
+                //        population.RemoveAt(i);
+                //        populationLengths.RemoveAt(i);
+                //        i--;
+                //    }
+                //}
+
+                //zostawiamy pierwsze 200 elementów populacji
+                SortedList posortowanaLista = new SortedList();
                 for (int i = 0; i < populationLengths.Count; i++)
                 {
-                    if (populationLengths[i] < srednia)
+                    try
                     {
-                        population.RemoveAt(i);
+                        posortowanaLista.Add(populationLengths[i], population[i]);
+                    }
+                    catch (ArgumentException)
+                    {
                         populationLengths.RemoveAt(i);
+                        population.RemoveAt(i);
                         i--;
                     }
+                    
                 }
 
+                populationLengths.Clear();
+                population.Clear();
 
-                //dorabiamy pół populacji przez rekombinowanie kolejnych dwóch elementów
-
-                List<List<Point>> randomlyGeneratedPopulation = new List<List<Point>>();
-
-                for (int f = 0; f < population.Count - 1; f++)
+                for (int i = 0; i < orgNumOfPopulation; i++)
                 {
+                    populationLengths.Add((double)posortowanaLista.GetKey(i));
+                    population.Add((List<Point>)posortowanaLista.GetByIndex(i));
+                }
 
-                    var tempvec1 = new List<Point>(population[f]);
-                    var tempvec2 = new List<Point>(population[f + 1]);
-                    //wybieramy 2 odcinki w wektorach o tych samych długościach
-                    int vecstart1 = (int)(random.NextDouble() * (population[0].Count - 1));
-                    int vecstop1 = (int)(random.NextDouble() * (population[0].Count - 1));
-                    if (vecstart1 > vecstop1)
+                posortowanaLista.Clear();
+
+
+                if (glrb!=(iloscPowtorzenRekombinacjiPopulacji-1))
+                {
+                    //dorabiamy pół populacji przez rekombinowanie kolejnych dwóch elementów
+
+                    List<List<Point>> randomlyGeneratedPopulation = new List<List<Point>>();
+
+                    for (int f = 0; f < population.Count - 1; f++)
                     {
-                        var temp = vecstop1;
-                        vecstop1 = vecstart1;
-                        vecstart1 = temp;
-                    }
-                    int vecstart2 = (int)(random.NextDouble() * ((population[0].Count - 1) - (vecstop1 - vecstart1)));
-                    int vecstop2 = vecstart2 + (vecstop1 - vecstart1);
-                    int startDifferences = new int();
-                    startDifferences = vecstart2 - vecstart1;//o ile wektor 2 jest dalej niz wektor1
-                    List<Point> removedFromVec1 = new List<Point>();
-                    List<Point> removedFromVec2 = new List<Point>();
-                    //zamiana miejsc
-                    //int wjakiejpetli = 0;
-                    for (int i = vecstart1; i < vecstop1; i++)
-                    {
-                        //wjakiejpetli++;
-                        //removedFromVec1.Add(tempvec1[i]);
-                        tempvec1[i] = population[f + 1][i + startDifferences];
-                        //removedFromVec2.Add(tempvec2[i + startDifferences]);
-                        tempvec2[i + startDifferences] = population[f][i];
-                    }
 
-                    //naprawa błędnych wektorów miast 1
+                        var tempvec1 = new List<Point>(population[f]);
+                        var tempvec2 = new List<Point>(population[f + 1]);
+                        //wybieramy 2 odcinki w wektorach o tych samych długościach
+                        int vecstart1 = (int)(random.NextDouble() * (population[0].Count - 1));
+                        int vecstop1 = (int)(random.NextDouble() * (population[0].Count - 1));
+                        if (vecstart1 > vecstop1)
+                        {
+                            var temp = vecstop1;
+                            vecstop1 = vecstart1;
+                            vecstart1 = temp;
+                        }
+                        int vecstart2 = (int)(random.NextDouble() * ((population[0].Count - 1) - (vecstop1 - vecstart1)));
+                        int vecstop2 = vecstart2 + (vecstop1 - vecstart1);
+                        int startDifferences = new int();
+                        startDifferences = vecstart2 - vecstart1;//o ile wektor 2 jest dalej niz wektor1
+                        List<Point> removedFromVec1 = new List<Point>();
+                        List<Point> removedFromVec2 = new List<Point>();
+                        //zamiana miejsc
+                        //int wjakiejpetli = 0;
+                        for (int i = vecstart1; i < vecstop1; i++)
+                        {
+                            //wjakiejpetli++;
+                            //removedFromVec1.Add(tempvec1[i]);
+                            tempvec1[i] = population[f + 1][i + startDifferences];
+                            //removedFromVec2.Add(tempvec2[i + startDifferences]);
+                            tempvec2[i + startDifferences] = population[f][i];
+                        }
 
-                    //sprawdzanie w jakich miejscach sa powtorzenia
-                    List<int> miejscaPowtorzen1 = new List<int>();
-                    List<int> miejscaPowtorzen2 = new List<int>();
-                    //stary kod
-                    {/*
+                        //naprawa błędnych wektorów miast 1
+
+                        //sprawdzanie w jakich miejscach sa powtorzenia
+                        List<int> miejscaPowtorzen1 = new List<int>();
+                        List<int> miejscaPowtorzen2 = new List<int>();
+                        //stary kod
+                        {/*
                         for (int i = 0; i < tempvec1.Count - 1; i++)//dla kazdego punktu w wektorze (oprócz ostatniego który jest powtórzeniem pierwszego)
                         {
                             for (int j = i - 1; j >= 0; j--)//dla każdego poprzedniego punktu w tym wektorze
@@ -240,86 +273,91 @@ namespace komiwojazer
                             tempvec2[miejscaPowtorzen2[i]] = removedFromVec2[0];//to ten teraz zamieniamy z czymś co usuneliśmy
                             removedFromVec2.RemoveAt(0);//i zapominamy o tym co usuneliśmy
                         }
-                    */}
+                    */
+                        }
 
-                    //tu wektory mają powtórzenia
+                        //tu wektory mają powtórzenia
 
-                    //sprawdzamy gdzie się powtarzają, i których elementów brakuje
-                    for (int i = 0; i < tempvec1.Count - 1; i++)//dla kazdego punktu w wektorze (oprócz ostatniego który jest powtórzeniem pierwszego)
-                    {
-                        bool brakuje = true;
-                        for (int j = i - 1; j >= 0; j--)//dla każdego poprzedniego punktu w tym wektorze
+                        //sprawdzamy gdzie się powtarzają, i których elementów brakuje
+                        for (int i = 0; i < tempvec1.Count - 1; i++)//dla kazdego punktu w wektorze (oprócz ostatniego który jest powtórzeniem pierwszego)
                         {
-                            if (Equals(tempvec1[i], tempvec1[j]))//jesli poprzedni był już taki jaki jest teraz
+                            bool brakuje = true;
+                            for (int j = i - 1; j >= 0; j--)//dla każdego poprzedniego punktu w tym wektorze
                             {
-                                miejscaPowtorzen1.Add(i);
+                                if (Equals(tempvec1[i], tempvec1[j]))//jesli poprzedni był już taki jaki jest teraz
+                                {
+                                    miejscaPowtorzen1.Add(i);
+                                }
+                            }
+                            for (int j = 0; j < tempvec1.Count - 1; j++)//dla każdego punktu w wektorze zmienionym
+                            {
+                                if (Equals(population[f][i], tempvec1[j]))//jesli w zmienionym jest już taki jak w orginalnym
+                                {
+                                    brakuje = false;
+                                }
+                            }
+                            if (brakuje)
+                            {
+                                removedFromVec1.Add(population[f][i]);
                             }
                         }
-                        for (int j = 0; j < tempvec1.Count - 1; j++)//dla każdego punktu w wektorze zmienionym
+
+                        //wrzucamy brakujące elementy w miejsca powtórzeń
+                        foreach (int pozycja in miejscaPowtorzen1)
                         {
-                            if (Equals(population[f][i], tempvec1[j]))//jesli w zmienionym jest już taki jak w orginalnym
+                            tempvec1[pozycja] = removedFromVec1[0];
+                            removedFromVec1.RemoveAt(0);
+                        }
+                        miejscaPowtorzen1.Clear();
+                        removedFromVec1.Clear();
+
+
+                        //sprawdzamy gdzie się powtarzają, i których elementów brakuje
+                        for (int i = 0; i < tempvec2.Count - 1; i++)//dla kazdego punktu w wektorze (oprócz ostatniego który jest powtórzeniem pierwszego)
+                        {
+                            bool brakuje = true;
+                            for (int j = i - 1; j >= 0; j--)//dla każdego poprzedniego punktu w tym wektorze
                             {
-                                brakuje=false;
+                                if (Equals(tempvec2[i], tempvec2[j]))//jesli poprzedni był już taki jaki jest teraz
+                                {
+                                    miejscaPowtorzen2.Add(i);
+                                }
+                            }
+                            for (int j = 0; j < tempvec2.Count - 1; j++)//dla każdego punktu w wektorze zmienionym
+                            {
+                                if (Equals(population[f + 1][i], tempvec2[j]))//jesli w zmienionym jest już taki jak w orginalnym
+                                {
+                                    brakuje = false;
+                                }
+                            }
+                            if (brakuje)
+                            {
+                                removedFromVec2.Add(population[f + 1][i]);
                             }
                         }
-                        if (brakuje)
+
+                        //wrzucamy brakujące elementy w miejsca powtórzeń
+                        foreach (int pozycja in miejscaPowtorzen2)
                         {
-                            removedFromVec1.Add(population[f][i]);
+                            tempvec2[pozycja] = removedFromVec2[0];
+                            removedFromVec2.RemoveAt(0);
                         }
+                        miejscaPowtorzen2.Clear();
+                        removedFromVec2.Clear();
+
+                        //tu wektory nie mają powtórzeń
+
+                        randomlyGeneratedPopulation.Add(tempvec1);
+                        randomlyGeneratedPopulation.Add(tempvec2);
+
                     }
 
-                    //wrzucamy brakujące elementy w miejsca powtórzeń
-                    foreach (int pozycja in miejscaPowtorzen1)
-                    {
-                        tempvec1[pozycja] = removedFromVec1[0];
-                        removedFromVec1.RemoveAt(0);
-                    }
-                    miejscaPowtorzen1.Clear();
-                    removedFromVec1.Clear();
+                    population.AddRange(randomlyGeneratedPopulation);
+                    randomlyGeneratedPopulation.Clear();
+                    //koniec dodawania do populacji
+                }
+                
 
-
-                    //sprawdzamy gdzie się powtarzają, i których elementów brakuje
-                    for (int i = 0; i < tempvec2.Count - 1; i++)//dla kazdego punktu w wektorze (oprócz ostatniego który jest powtórzeniem pierwszego)
-                    {
-                        bool brakuje = true;
-                        for (int j = i - 1; j >= 0; j--)//dla każdego poprzedniego punktu w tym wektorze
-                        {
-                            if (Equals(tempvec2[i], tempvec2[j]))//jesli poprzedni był już taki jaki jest teraz
-                            {
-                                miejscaPowtorzen2.Add(i);
-                            }
-                        }
-                        for (int j = 0; j < tempvec2.Count - 1; j++)//dla każdego punktu w wektorze zmienionym
-                        {
-                            if (Equals(population[f+1][i], tempvec2[j]))//jesli w zmienionym jest już taki jak w orginalnym
-                            {
-                                brakuje = false;
-                            }
-                        }
-                        if (brakuje)
-                        {
-                            removedFromVec2.Add(population[f+1][i]);
-                        }
-                    }
-
-                    //wrzucamy brakujące elementy w miejsca powtórzeń
-                    foreach (int pozycja in miejscaPowtorzen2)
-                    {
-                        tempvec2[pozycja] = removedFromVec2[0];
-                        removedFromVec2.RemoveAt(0);
-                    }
-                    miejscaPowtorzen2.Clear();
-                    removedFromVec2.Clear();
-                    
-                    //tu wektory nie mają powtórzeń
-
-                    randomlyGeneratedPopulation.Add(tempvec1);
-                    randomlyGeneratedPopulation.Add(tempvec2);
-
-                   }
-
-                population.AddRange(randomlyGeneratedPopulation);
-                randomlyGeneratedPopulation.Clear();
                 }
             //koniec pętli
             for (int i = 0; i < populationLengths.Count; i++)
