@@ -109,8 +109,8 @@ namespace komiwojazer
 
             listBox2.Items.Clear();
 
-            //tu populacja to 1 droga
-            population = citiesManager.GetUniqueList(numOfPopulation, points);
+
+            population = citiesManager.GetUniqueList(numOfPopulation, points);             //tu populacja to 1 droga
             //teraz populacja to numOfPopulation różnych dróg
 
             //points.Add(points[0]);
